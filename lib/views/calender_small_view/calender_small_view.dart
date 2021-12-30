@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_calendar_demo/constants.dart';
 import 'package:flutter_calendar_demo/models/event.dart';
+import 'package:flutter_calendar_demo/responsive.dart';
 import 'package:flutter_calendar_demo/views/calender_small_view/widgets/apointment_card.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
@@ -59,7 +60,7 @@ class _CalenderSmallViewState extends State<CalenderSmallView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: bgColor,
+      backgroundColor: Responsive.isMobile(context) ? bgColor : Colors.white,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
@@ -152,6 +153,7 @@ class _CalenderSmallViewState extends State<CalenderSmallView> {
                   valueListenable: _selectedEvents,
                   builder: (context, value, _) {
                     return ListView.builder(
+                      padding: const EdgeInsets.only(bottom: 30),
                       itemCount: value.length,
                       itemBuilder: (context, index) {
                         if (EventType.values[value[index].eventType!] ==

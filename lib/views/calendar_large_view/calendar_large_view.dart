@@ -4,6 +4,9 @@ import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_calendar_demo/constants.dart';
 import 'package:flutter_calendar_demo/models/event.dart';
+import 'package:flutter_calendar_demo/responsive.dart';
+import 'package:flutter_calendar_demo/views/calender_small_view/widgets/apointment_card.dart';
+import 'package:flutter_calendar_demo/views/calender_small_view/widgets/event_card_style1.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
 
@@ -25,7 +28,6 @@ class _CalendarLargeViewState extends State<CalendarLargeView> {
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
-  int counterEventCardStyle = -1;
 
   @override
   void initState() {
@@ -45,21 +47,51 @@ class _CalendarLargeViewState extends State<CalendarLargeView> {
   }
 
   void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
-    if (!isSameDay(_selectedDay, selectedDay)) {
-      setState(() {
-        _selectedDay = selectedDay;
-        _focusedDay = focusedDay;
-      });
+    _selectedEvents.value = _getEventsForDay(selectedDay);
 
-      _selectedEvents.value = _getEventsForDay(selectedDay);
-    }
-    counterEventCardStyle = -1;
+    showDialog<String>(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text(
+              'Upcoming Events',
+              style: TextStyle(color: darkBlueColor),
+            ),
+            content: _selectedEvents.value.isEmpty
+                ? Text('There are no events')
+                : Container(
+                    height: 500,
+                    width: 300,
+                    child: ListView.builder(
+                      padding: const EdgeInsets.only(bottom: 30),
+                      itemCount: _selectedEvents.value.length,
+                      itemBuilder: (context, index) {
+                        if (EventType.values[
+                                _selectedEvents.value[index].eventType!] ==
+                            EventType.event) {
+                          return EventCardStyle1(
+                              event: _selectedEvents.value[index]);
+                        } else {
+                          return ApointmentCard(
+                              event: _selectedEvents.value[index]);
+                        }
+                      },
+                    ),
+                  ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.pop(context, 'OK'),
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: bgColor,
+      backgroundColor: Responsive.isMobile(context) ? bgColor : Colors.white,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: defaultPadding),

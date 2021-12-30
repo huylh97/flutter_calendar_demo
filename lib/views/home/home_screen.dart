@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_calendar_demo/constants.dart';
 import 'package:flutter_calendar_demo/models/calendar_view_style.dart';
+import 'package:flutter_calendar_demo/responsive.dart';
 import 'package:flutter_calendar_demo/views/calendar_large_view/calendar_large_view.dart';
 import 'package:flutter_calendar_demo/views/calender_small_view/calender_small_view.dart';
 
@@ -19,14 +20,52 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: darkBlueColor,
-        title: const Text("Calendar"),
+      backgroundColor: bgColor,
+      appBar: Responsive.isTablet(context)
+          ? AppBar(
+              backgroundColor: darkBlueColor,
+              title: const Text("Calendar"),
+            )
+          : null,
+      drawer: Responsive.isTablet(context) ? buildDrawer() : null,
+      body: Responsive.isTablet(context) ? buildForMobile() : buildForDesktop(),
+    );
+  }
+
+  Widget buildForMobile() {
+    return calendarViewStyle == CalendarViewStyle.smallViewMonth
+        ? CalenderSmallView()
+        : CalendarLargeView();
+  }
+
+  Widget buildForDesktop() {
+    return Center(
+      child: Container(
+        constraints: const BoxConstraints(maxWidth: maxWidthDesktop),
+        child: Row(
+          children: [
+            Expanded(
+              flex: 3,
+              child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black12),
+                  ),
+                  child: CalenderSmallView()),
+            ),
+            const SizedBox(width: defaultPadding + 5),
+            Expanded(
+              flex: 7,
+              child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(color: Colors.black12),
+                  ),
+                  padding: const EdgeInsets.only(bottom: 40),
+                  child: CalendarLargeView()),
+            ),
+          ],
+        ),
       ),
-      drawer: buildDrawer(),
-      body: calendarViewStyle == CalendarViewStyle.smallViewMonth
-          ? CalenderSmallView()
-          : CalendarLargeView(),
     );
   }
 

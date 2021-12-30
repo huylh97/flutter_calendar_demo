@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_calendar_demo/models/event.dart';
+import 'package:flutter_calendar_demo/responsive.dart';
 
 import '../../../constants.dart';
 
@@ -12,15 +13,21 @@ class SmallEventCallStyle3 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: smallEventCardHeight,
-      margin: const EdgeInsets.only(bottom: 1.0),
+      margin: EdgeInsets.only(bottom: Responsive.isMobile(context) ? 1.0 : 2.0),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(2.0),
       ),
-      child: Text(
-        event.title!,
-        style: const TextStyle(fontSize: 10, color: darkBlueColor),
-        overflow: TextOverflow.fade,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            event.title!,
+            style: const TextStyle(fontSize: 10, color: darkBlueColor),
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+          ),
+        ],
       ),
     );
   }

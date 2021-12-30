@@ -4,7 +4,9 @@ import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_calendar_demo/constants.dart';
 import 'package:flutter_calendar_demo/models/event.dart';
+import 'package:flutter_calendar_demo/responsive.dart';
 import 'package:flutter_calendar_demo/views/webview/webview.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class EventCardStyle2 extends StatelessWidget {
   const EventCardStyle2({
@@ -14,9 +16,26 @@ class EventCardStyle2 extends StatelessWidget {
 
   final Event event;
 
+  double cardHeight(BuildContext context) {
+    if (Responsive.isTablet(context)) {
+      return 105.0;
+    }
+    if (MediaQuery.of(context).size.width > 1300) {
+      return 120.0;
+    }
+
+    return 130.0;
+  }
+
+  // ignore: unused_element
+  void _launchURL(String url) async {
+    if (!await launch(url)) throw 'Could not launch $url';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: darkBlueColor,
       margin: const EdgeInsets.symmetric(
         horizontal: 12.0,
         vertical: 4.0,
@@ -25,7 +44,7 @@ class EventCardStyle2 extends StatelessWidget {
         borderRadius: BorderRadius.circular(eventCardBorder),
       ),
       child: Container(
-        height: 105,
+        height: cardHeight(context),
         child: Row(
           mainAxisSize: MainAxisSize.max,
           children: [
@@ -81,12 +100,16 @@ class EventCardStyle2 extends StatelessWidget {
                         const SizedBox(width: 10.0),
                         InkWell(
                           onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => WebViewPage(
-                                      url: event.clientProfileUrl!)),
-                            );
+                            if (!Responsive.isTablet(context)) {
+                              _launchURL(event.clientProfileUrl!);
+                            } else {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => WebViewPage(
+                                        url: event.clientProfileUrl!)),
+                              );
+                            }
                           },
                           child: const Text(
                             "View Client Profile",

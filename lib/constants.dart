@@ -20,3 +20,4 @@ const eventCardBorder = 10.0;
 
 // Mark: Size
 const smallEventCardHeight = 16.0;
+const maxWidthDesktop = 1440.0;

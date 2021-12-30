@@ -42,9 +42,6 @@ final exampleEvents = [
     title: 'Webinar: How to cope with trauma in professional life ',
     startedTime: DateTime.now(),
     endedTime: DateTime.now().add(Duration(minutes: 30)),
-    avatarUrl:
-        "https://www.pngall.com/wp-content/uploads/12/Avatar-Profile-PNG-Free-Image.png",
-    clientProfileUrl: "https://www.google.com/",
   ),
   Event(
     eventType: 1,
