@@ -57,11 +57,13 @@ class _CalendarLargeViewState extends State<CalendarLargeView> {
               'Upcoming Events',
               style: TextStyle(color: darkBlueColor),
             ),
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 0, vertical: 8),
             content: _selectedEvents.value.isEmpty
                 ? Text('There are no events')
                 : Container(
                     height: 500,
-                    width: 300,
+                    width: 350,
                     child: ListView.builder(
                       padding: const EdgeInsets.only(bottom: 30),
                       itemCount: _selectedEvents.value.length,
@@ -70,6 +72,7 @@ class _CalendarLargeViewState extends State<CalendarLargeView> {
                                 _selectedEvents.value[index].eventType!] ==
                             EventType.event) {
                           return EventCardStyle1(
+                              cardHeigt: 120,
                               event: _selectedEvents.value[index]);
                         } else {
                           return ApointmentCard(

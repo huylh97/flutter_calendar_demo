@@ -12,13 +12,15 @@ class EventCardStyle1 extends StatelessWidget {
   const EventCardStyle1({
     Key? key,
     required this.event,
+    this.cardHeigt = 105.0,
   }) : super(key: key);
 
   final Event event;
+  final double cardHeigt;
 
   double cardHeight(BuildContext context) {
     if (Responsive.isTablet(context)) {
-      return 105.0;
+      return cardHeigt;
     }
 
     if (MediaQuery.of(context).size.width > 1300) {
