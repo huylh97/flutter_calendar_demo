@@ -1,0 +1,4 @@
+enum CalendarViewStyle {
+  smallViewMonth,
+  largeViewMonth,
+}
