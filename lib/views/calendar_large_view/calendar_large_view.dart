@@ -60,7 +60,10 @@ class _CalendarLargeViewState extends State<CalendarLargeView> {
             contentPadding:
                 const EdgeInsets.symmetric(horizontal: 0, vertical: 8),
             content: _selectedEvents.value.isEmpty
-                ? Text('There are no events')
+                ? Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                    child: Text('There are no events'),
+                  )
                 : Container(
                     height: 500,
                     width: 350,
@@ -103,8 +106,8 @@ class _CalendarLargeViewState extends State<CalendarLargeView> {
             children: [
               Expanded(
                 child: TableCalendar<Event>(
-                  firstDay: DateTime(kToday.year, kToday.month - 5, kToday.day),
-                  lastDay: DateTime(kToday.year, kToday.month + 5, kToday.day),
+                  firstDay: DateTime(kToday.year, kToday.month - 6, kToday.day),
+                  lastDay: DateTime(kToday.year, kToday.month + 6, kToday.day),
                   focusedDay: _focusedDay,
                   calendarFormat: _calendarFormat,
                   availableCalendarFormats: const {
@@ -220,6 +223,25 @@ class _CalendarLargeViewState extends State<CalendarLargeView> {
                                 ],
                               ),
                             );
+                    },
+
+                    // Mark: disableBuilder
+                    disabledBuilder: (context, day, focusedDay) {
+                      return Container(
+                        width: double.infinity,
+                        margin: const EdgeInsets.all(defaultCellMargin),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: defaultCellPadding),
+                        decoration: buildCellDecoration(),
+                        child: Column(
+                          children: [
+                            Text(
+                              formatDate(day, [d]),
+                              style: TextStyle(color: Colors.black26),
+                            )
+                          ],
+                        ),
+                      );
                     },
                   ),
                 ),

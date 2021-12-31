@@ -68,8 +68,8 @@ class _CalenderSmallViewState extends State<CalenderSmallView> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TableCalendar<Event>(
-                firstDay: DateTime(kToday.year, kToday.month - 5, kToday.day),
-                lastDay: DateTime(kToday.year, kToday.month + 5, kToday.day),
+                firstDay: DateTime(kToday.year, kToday.month - 6, kToday.day),
+                lastDay: DateTime(kToday.year, kToday.month + 6, kToday.day),
                 focusedDay: _focusedDay,
                 selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
                 calendarFormat: _calendarFormat,
